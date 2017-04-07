@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
+
+
+
+
+namespace WebDriverDemo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            IWebDriver driver = new ChromeDriver(@"C:\Users\raphael.damasceno\Downloads\chromedriver_win32_old");
+            //Test Website
+            driver.Url = "http://www.NUTRITIONFACTS.ORG";
+            //find search box and type a keyword
+            var searchBox = driver.FindElement(By.ClassName("form-control"));
+            searchBox.SendKeys("lung");
+
+            //Click on Search button
+            var searchClick = driver.FindElement(By.ClassName("input-group-btn"));
+            searchClick.Click();
+
+            //Delay test option 1
+            var timeout = 1000; // in milliseconds
+            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(timeout));
+            wait.Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
+
+            // Delay test option 2
+            // driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+            // Click on a link
+            var urltest = driver.FindElement(By.LinkText("Food as Medicine: Preventing & Treating the Most Dreaded Diseases with Diet"));
+
+            urltest.Click();
+        }
+
+
+    }
+}
